@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<title>Calculadora de pago de vacaciones</title>
+	<style>
+		body, input, button {
+			font: large "Trebuchet MS", Helvetica, Arial, sans-serif;
+			line-height: 1.5em;
+		}
+		label, input {
+			display: inline-block;
+			width: 48%;
+		}
+		#results {
+			clear: left;
+		}
+		body {
+			background-color: #eee;
+		}
+		.page {
+			background-color: white;
+		}
+		.page:after {
+			content: " ";
+			clear: both;
+			display: block;
+		}
+		
+		@media (max-width: 800px) {
+			body {
+				padding: 0;
+			}
+			fieldset {
+				display: block;
+			}
+			.page {padding: 1em;}
+		}
+		@media (min-width: 801px) {
+			fieldset {
+				float: left;
+				width: 350px;
+			}
+			.page {
+				width: 800px;
+				margin: 3em auto;
+				padding: 2em;
+				clear: both;
+				border: 1px solid grey;
+			}
+		}
+	</style>
+</head>
+<body>
+	<div class="page">
+		<h1>Calculadora de pago de vacaciones y aguinaldo</h1>
+		<form>
+			<fieldset>
+				<legend>Salario:</legend>
+				<p>
+					<label for="diario">Diario:</label> 
+					<input type="text" id="diario" class="diario" placeholder="pesos" onkeyup="e('diario', this.value);e('quincena', this.value*15);e('salario', this.value*30);calc();" />
+				</p>
+				<p>
+					<label for="quincena">Quincenal:</label> 
+					<input type="text" id="quincena" class="quincena" placeholder="pesos" onkeyup="e('diario', this.value/15);e('salario', this.value*2);calc();" />
+				</p>
+				<p>
+					<label for="salario">Mensual:</label> 
+					<input type="text" id="salario" class="salario" placeholder="pesos" onkeyup="e('salario', this.value);e('diario', this.value/30);e('quincena', this.value/2);calc();"/>
+				</p>
+			</fieldset>
+			<fieldset>
+				<legend>Tiempo trabajado:</legend>
+				<p>
+					<label for="anios">Años:</label> 
+					<input type="text" id="anios" placeholder="número de años" onkeyup="calc()" />
+				</p>
+				<p>
+					<label for="meses">Meses:</label> 
+					<input type="text" id="meses" placeholder="número de meses" onkeyup="calc()" />
+				</p>
+				<p>
+					<label for="dias">Días:</label> 
+					<input type="text" id="dias" placeholder="número de días" onkeyup="calc()" />
+				</p>
+			</fieldset>
+			<fieldset>
+				<legend>Datos aguinaldo:</legend>
+				<p>
+					<label for="compensacion">Compensación garantizada (quincenal):</label> 
+					<input type="text" id="compensacion" class="compensacion" placeholder="pesos" onkeyup="e('compensacion', this.value);calc()" />
+				</p>
+			</fieldset>
+		</form>
+	</div>
+
+	<div class="page">
+		<h2>Pago vacaciones</h2>
+		<p>
+			Constante = 20 días / 12 meses = <b class="k_vacaciones">¿?</b>
+			<hr>
+			<dt>Proporción años =<dt>
+				<dd>Constante * Años trabajados * 12 meses en cada año =</dd>
+				<dd><i class="k_vacaciones">¿?</i> * <i class="anios">¿?</i> * 12 = <b class="prop-anios-vacaciones">¿?</b></dd>
+			<hr>
+			<dt>Proporción meses =<dt>
+				<dd>Constante * Meses trabajados =</dd>
+				<dd><i class="k_vacaciones">¿?</i> * <i class="meses">¿?</i> = <b class="prop-meses-vacaciones">¿?</b></dd>
+			<hr>
+			<dt>Proporción días =<dt>
+				<dd>Constante * Días trabajados / 30 días en cada mes =</dd>
+				<dd><i class="k_vacaciones">¿?</i> * <i class="dias">¿?</i> / 30 = <b class="prop-dias-vacaciones">¿?</b></dd>
+			<hr>
+			<dt>Pago vacaciones =<dt>
+				<dd>Suma de proporciones * Sueldo diario =</dd>
+				<dd>
+					(	
+						<i class="prop-anios-vacaciones">¿?</i> + 
+						<i class="prop-meses-vacaciones">¿?</i> + 
+						<i class="prop-dias-vacaciones">¿?</i>
+					) *  <i class="diario">¿?</i>  = 
+					<b class="vacaciones">¿?</b>
+				</dd>
+			<hr>
+			<dt>Prima vacacional =<dt>
+				<dd>30% del Pago de vacaciones =</dd>
+				<dd>
+					<i class="vacaciones">¿?</i> * 0.3 =
+					<b class="prima">¿?</b>
+				</dd>
+			<hr>
+			<dt>Total pagos para vacaciones</dt>
+				<dd>Pago de vacaciones + Prima vacacional =</dd>
+				<dd><i class="vacaciones">¿?</i> + <i class="prima">¿?</i> =</dd>
+				<dd><i class="vacaciones">¿?</i> * 1.3 = <b class="vacaciones-prima">¿?</b></dd>
+		</p>
+	</div>
+	<div class="page">
+		<h2>Pago aguinaldo</h2>
+		<p>
+			Constante = 40 días / 12 meses = <b class="k_aguinaldo">¿?</b>
+			<hr>
+			<dt>Proporción años =<dt>
+				<dd>Constante * Años trabajados * 12 meses en cada año =</dd>
+				<dd><i class="k_aguinaldo">¿?</i> * <i class="anios">¿?</i> * 12 = <b class="prop-anios-aguinaldo">¿?</b></dd>
+			<hr>
+			<dt>Proporción meses =<dt>
+				<dd>Constante * Meses trabajados =</dd>
+				<dd><i class="k_aguinaldo">¿?</i> * <i class="meses">¿?</i> = <b class="prop-meses-aguinaldo">¿?</b></dd>
+			<hr>
+			<dt>Proporción días =<dt>
+				<dd>Constante * Días trabajados / 30 días en cada mes =</dd>
+				<dd><i class="k_aguinaldo">¿?</i> * <i class="dias">¿?</i> / 30 = <b class="prop-dias-aguinaldo">¿?</b></dd>
+			<hr>
+			<dt>Salario integrado =<dt>
+				<dd>Salario mensual + Compensación garantizada mensual =</dd>
+				<dd>Salario mensual + (Compensación garantizada quincenal * 2) =</dd>
+				<dd>
+					<i class="salario">¿?</i> + (<i class="compensacion">¿?</i> * 2)
+					= <b class="integrado">¿?</b>
+				</dd>
+			<hr>
+			<dt>Pago Aguinaldo =<dt>
+				<dd>Suma de proporciones * Salario integrado =</dd>
+				<dd>
+					(
+						<i class="prop-anios-aguinaldo">¿?</i> + 
+						<i class="prop-meses-aguinaldo">¿?</i> + 
+						<i class="prop-dias-aguinaldo">¿?</i>
+					) * <i class="integrado">¿?</i>
+					= <b class="aguinaldo">¿?</b>
+				</dd>
+		</p>
+	</div>
+	
+	
+	
+	<script>
+		var e = function(id, value) {
+			if(typeof value !== 'undefined') {
+				var elements = document.getElementsByClassName(id);
+				for(var i = 0; i < elements.length; i++) {
+					var el = elements[i];
+					if(el.tagName.toLowerCase() == 'input') {
+						el.value = value;
+					} else {
+						if(!isNaN(value)) {
+							value = Math.round(value * 100) / 100;
+						}
+						el.innerHTML = value;
+					}
+				}
+			} else {
+				var el = document.getElementById(id);
+				if(el) {
+					return parseFloat( el.value );
+				} else {
+					return null;
+				}
+			}
+		};
+		
+		var k_vacaciones = (20 / 12);
+		e("k_vacaciones", k_vacaciones);
+		
+		var k_aguinaldo  = (40 / 12);
+		e("k_aguinaldo", k_aguinaldo);
+		
+		function calc (k) {
+			var años = e("anios");
+			var meses = e("meses");
+			var días = e("dias");
+			var salario_mensual = e("salario");
+			var compensacion_quin = e("compensacion");
+			
+			e("anios", años);
+			e("meses", meses);
+			e("dias", días);
+			e("salario", salario_mensual);
+			e("compensacion", compensacion_quin);
+		
+			var sueldo_diario = salario_mensual / 30;
+			
+			var proporcion_año = k_vacaciones * años * 12;
+			e("prop-anios-vacaciones", proporcion_año);
+			var proporcion_mes = k_vacaciones * meses;
+			e("prop-meses-vacaciones", proporcion_mes);
+			var proporcion_dia = k_vacaciones * días / 30;
+			e("prop-dias-vacaciones", proporcion_dia);
+			
+			var vacaciones = sueldo_diario * (proporcion_año + proporcion_mes + proporcion_dia);
+			e("vacaciones", vacaciones);
+			e("prima", vacaciones * .30);
+			e("vacaciones-prima", vacaciones * 1.30);
+			
+			var compensacion_mes = compensacion_quin * 2; // sobre 30 dias
+			var salario_integrado = (salario_mensual + compensacion_mes) / 30;
+			e("integrado", salario_integrado);
+			
+			var proporcion_año = k_aguinaldo * años * 12;
+			e("prop-anios-aguinaldo", proporcion_año);
+			var proporcion_mes = k_aguinaldo * meses;
+			e("prop-meses-aguinaldo", proporcion_mes);
+			var proporcion_dia = k_aguinaldo * días / 30;
+			e("prop-dias-aguinaldo", proporcion_dia);
+			
+			var aguinaldo = salario_integrado * (proporcion_año + proporcion_mes + proporcion_dia);
+			e("aguinaldo", aguinaldo);
+		}
+		function doble () {
+			e("salario", e("quincena") * 2);
+		}
+ 	</script>
+</body>
+</html>
